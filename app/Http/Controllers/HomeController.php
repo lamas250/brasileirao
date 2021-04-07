@@ -34,7 +34,6 @@ class HomeController extends Controller
 
   public function store(Request $request)
   {
-    // dd($request->all());
     $rules = array(
       'home_team' => 'required',
       'guest_team' => 'required',

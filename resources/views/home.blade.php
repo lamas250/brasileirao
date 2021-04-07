@@ -53,7 +53,9 @@
                 <option value="">Selecione ...</option>
               </select>
               <label></label>
-              <input type="number" name="home_goals" class="form-group">
+              <input type="text" name="home_goals" class="form-group" id="home_goals"
+                onkeypress="return onlyNumber()"
+              >
             </div>
             <div >
               <h3>X</h3>
@@ -67,7 +69,9 @@
                 <option value="">Selecione ...</option>
               </select>
               <label></label>
-              <input type="number" name="guest_goals" class="form-group">
+              <input type="text" name="guest_goals" class="form-group" id="guest_goals" 
+                onkeypress="return onlyNumber()"
+              >
             </div>
           </div>
           <div class="form-group text-right">
@@ -131,6 +135,11 @@
   });
 
   $('#close_modal').click(function(){
+    $('#modal_form').find('#home_team').val('');
+    $('#modal_form').find('#guest_team').val('');
+    $('#modal_form').find('#guest_goals').val('');
+    $('#modal_form').find('#home_goals').val('');
+    $('#form_result').html('');
     $('#formModal').modal('hide');
   })
 
@@ -171,15 +180,33 @@
         if(data.success){
           $('#modal_form')[0].reset();
           $('#teams_table').DataTable().ajax.reload();
-          // $('#formModal').modal('hide');
+          $('#formModal').modal('hide');
           $('#modal_form').find('#home_team').val('');
           $('#modal_form').find('#guest_team').val('');
           $('#modal_form').find('#guest_goals').val('');
           $('#modal_form').find('#home_goals').val('');
+          $('#guest_team option').attr('disabled', false);
+          $('#home_team option').attr('disabled', false);
         }
         $('#form_result').html(html);
       }
     })
   })
+
+  $('#home_team').on('change', function(event){
+    $('#guest_team option').attr('disabled', false);
+    $('#guest_team option[value=' + this.value + ']').attr('disabled','disabled');
+  })
+
+  $('#guest_team').on('change', function(event){
+    $('#home_team option').attr('disabled', false);
+    $('#home_team option[value=' + this.value + ']').attr('disabled','disabled');
+  })
+
+  function onlyNumber(e){
+    return event.charCode >= 48 && event.charCode <= 57
+  }
+
+
 </script>
 @endsection

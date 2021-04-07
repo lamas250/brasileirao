@@ -18,7 +18,8 @@ class TeamsRepository
     return $this->model->orderBy('points', 'DESC')
       ->orderBy('goal_difference', "DESC")
       ->orderBy('goals_for', 'DESC')
-      ->orderBy('name', 'ASC')
+      ->orderByRaw('RAND()')
+      // ->orderBy('name', 'ASC')
       ->get();
   }
 
@@ -29,7 +30,6 @@ class TeamsRepository
 
   public function saveMatch($data)
   {
-    // dd("Repo", $data);
     $home_team = $this->model->find($data['home_team']);
     $guest_team = $this->model->find($data['guest_team']);
 
