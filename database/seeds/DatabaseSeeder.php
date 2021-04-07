@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
       'image' => '/assets/Cuiaba_EC.svg'
     ]);
     DB::table('teams')->insert([
-      'name' => 'Flamento',
+      'name' => 'Flamengo',
       'image' => '/assets/Flamengo.svg'
     ]);
     DB::table('teams')->insert([

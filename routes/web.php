@@ -15,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/get-teams', 'HomeController@getTeams')->name('get.teams');
+Route::post('/match', 'HomeController@store')->name('store.match');
 
 Auth::routes();

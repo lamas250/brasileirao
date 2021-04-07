@@ -1,0 +1,15 @@
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.columns{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+table tbody tr:nth-child(1){
+  background-color: rgb(136, 196, 253);
+}

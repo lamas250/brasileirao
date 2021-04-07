@@ -17,16 +17,16 @@ class CreateTeamsTable extends Migration
       $table->id();
       $table->string('name')->unique();
       $table->string('image');
-      $table->integer('points')->nullable();
-      $table->integer('played')->nullable();
-      $table->integer('won')->nullable();
-      $table->integer('drawn')->nullable();
-      $table->integer('lost')->nullable();
-      $table->integer('goals_for')->nullable();
-      $table->integer('goals_against')->nullable();
-      $table->integer('goal_difference')->nullable();
-      $table->integer('red_card')->nullable();
-      $table->integer('yellow_card')->nullable();
+      $table->integer('points')->default(0);
+      $table->integer('played')->default(0);
+      $table->integer('won')->default(0);
+      $table->integer('draw')->default(0);
+      $table->integer('lost')->default(0);
+      $table->integer('goals_for')->default(0);
+      $table->integer('goals_against')->default(0);
+      $table->integer('goal_difference')->default(0);
+      $table->integer('red_card')->default(0);
+      $table->integer('yellow_card')->default(0);
       $table->timestamps();
     });
   }
