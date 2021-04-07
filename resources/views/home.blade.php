@@ -139,6 +139,8 @@
     $('#modal_form').find('#guest_team').val('');
     $('#modal_form').find('#guest_goals').val('');
     $('#modal_form').find('#home_goals').val('');
+    $('#guest_team option').attr('disabled', false);
+    $('#home_team option').attr('disabled', false);
     $('#form_result').html('');
     $('#formModal').modal('hide');
   })
