@@ -42,15 +42,15 @@
       </div>
       <div class="modal-body">
         <span id="form_result"></span>
-        <form method="POST" id="modal_form">
-          @csrf
+        <form  id="modal_form">
+          @CSRF
           <div class="columns">
             <div class="form-group col-md-5">
               <label >
                 Time da Casa
               </label>
-              <select class="form-control" name="home_team">
-                <option>Selecione ...</option>
+              <select class="form-control" name="home_team" id="home_team">
+                <option value="">Selecione ...</option>
               </select>
               <label></label>
               <input type="number" name="home_goals" class="form-group">
@@ -63,15 +63,15 @@
               <label>
                 Time Visitante
               </label>
-              <select class="form-control" name="guest_team">
-                <option>Selecione ...</option>
+              <select class="form-control" name="guest_team" id="guest_team">
+                <option value="">Selecione ...</option>
               </select>
               <label></label>
               <input type="number" name="guest_goals" class="form-group">
             </div>
           </div>
           <div class="form-group text-right">
-            <input type="submit" name="action_button" id="action_button" class="btn btn-danger" value="Fechar">
+            <input type="button" name="close_modal" id="close_modal" class="btn btn-danger" value="Fechar">
             <input type="submit" name="action_button" id="action_button" class="btn btn-info" value="Salvar">
           </div>
         </form>
@@ -130,41 +130,56 @@
     });
   });
 
+  $('#close_modal').click(function(){
+    $('#formModal').modal('hide');
+  })
+
   $('#create_record').click(function(){
     $('#formModal').modal('show');
-    $ajax({
-      url: "{{ route('get.teams',) }}"
+    $.ajax({url: "{{ route('get.teams') }}",
+      dataType:"json",
+      success:function(html){
+        for(var i = 0; i< html.length;i++){
+          $('#home_team').append('<option value="'+html[i]['id']+'">'+html[i]['name']+'</option>');
+          $('#guest_team').append('<option value="'+html[i]['id']+'">'+html[i]['name']+'</option>');
+        }
+        // console.log(html.data);
+      }
     })
   });
 
-  $('modal_form').on('submit', function(event){
+  $('#modal_form').on('submit', function(event){
     event.preventDefault();
 
-    // $.ajax({
-    //   url: "{{ route('store.match') }}",
-    //   method: "POST",
-    //   data: new FormData(this),
-    //   contentType: false,
-    //   cache: false,
-    //   processData: false,
-    //   dataType: "json",
-    //   success: function(data){
-    //     var html = '';
-    //     if(data.errors){
-    //       html = '<div class="alrt alert-danger">';
-    //       for(var count = 0; count < data.errors.length; count++){
-    //         html += '<p>' + data.errors[count] + '</p>';
-    //       }
-    //       html += '</div>';
-    //     }
-    //     if(data.success){
-    //       html = '<div class="alert alert-success">' + data.success + '</div>';
-    //       $('#modal_form')[0].reset();
-    //       $('#teams_table').DataTable().ajax.reload();
-    //     }
-    //     $('#form_result').html(html);
-    //   }
-    // })
+    $.ajax({
+      url: "{{ route('store.match') }}",
+      method: "POST",
+      data: new FormData(this),
+      contentType: false,
+      cache: false,
+      processData: false,
+      dataType: "json",
+      success: function(data){
+        var html = '';
+        if(data.errors){
+          html = '<div class="alrt alert-danger">';
+          for(var count = 0; count < data.errors.length; count++){
+            html += '<p>' + data.errors[count] + '</p>';
+          }
+          html += '</div>';
+        }
+        if(data.success){
+          $('#modal_form')[0].reset();
+          $('#teams_table').DataTable().ajax.reload();
+          // $('#formModal').modal('hide');
+          $('#modal_form').find('#home_team').val('');
+          $('#modal_form').find('#guest_team').val('');
+          $('#modal_form').find('#guest_goals').val('');
+          $('#modal_form').find('#home_goals').val('');
+        }
+        $('#form_result').html(html);
+      }
+    })
   })
 </script>
 @endsection
